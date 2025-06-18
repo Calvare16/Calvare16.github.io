@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=412, height=915, initial-scale=1.0" />
+  <title>Devil's Food Cake.exe</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #00ff99;
+      font-family: 'Share Tech Mono', monospace;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 30px;
+      box-sizing: border-box;
+      overflow: hidden;
+      max-aspect-ratio: 2.22;
+      min-aspect-ratio: 2.22;
+    }
+
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #00ff99;
+    }
+
+    #step-counter {
+      font-size: 1em;
+      color: #44ffcc;
+      margin-bottom: 20px;
+    }
+
+    #step-box {
+      max-width: 90%;
+      font-size: 1.2em;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      text-align: left;
+      background: rgba(0, 255, 153, 0.1);
+      padding: 20px;
+      border: 1px solid #00ff99;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #00ff99;
+      min-height: 140px;
+    }
+
+    .button-container {
+      margin-top: 30px;
+      display: flex;
+      gap: 15px;
+    }
+
+    button {
+      background: black;
+      color: #00ff99;
+      border: 2px solid #00ff99;
+      font-family: 'Share Tech Mono', monospace;
+      padding: 12px 24px;
+      font-size: 1em;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 0 5px #00ff99;
+      transition: all 0.2s;
+    }
+
+    button:hover:not(:disabled) {
+      background: #00ff99;
+      color: #000;
+    }
+
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .letter {
+      opacity: 0;
+      display: inline-block;
+      transform: translateY(5px);
+      animation: letterIn 0.03s forwards;
+      white-space: pre;
+    }
+
+    @keyframes letterIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Loading: DevilCake.exe</h1>
+  <div id="step-counter">Step ?/?</div>
+  <div id="step-box">Press "Next" to begin baking protocol.</div>
+
+  <div class="button-container">
+    <button id="back-btn" disabled>&lt; Back</button>
+    <button id="next-btn">Next &gt;</button>
+  </div>
+
+  <script>
+    const steps = [
+      "Preheat oven to 350°F (175°C).\nGrease and flour three 9-inch round cake pans.",
+      "In a bowl, whisk cocoa powder and boiling water until smooth.\nLet cool.",
+      "In another bowl, whisk flour, baking soda, and salt.",
+      "In a large bowl, beat butter and sugar until light and fluffy (about 3 minutes).",
+      "Add eggs one at a time, beating well after each. Stir in vanilla.",
+      "Mix in the cocoa mixture and sour cream until fully combined.",
+      "Gradually add the dry ingredients.\nMix just until no dry flour remains.",
+      "Divide batter evenly between pans.\nSmooth the tops.",
+      "Bake 28–32 minutes.\nToothpick should come out clean.",
+      "Cool in pans for 10 minutes.\nTransfer to wire racks to finish cooling."
+    ];
+
+    let stepIndex = -1;
+    const stepBox = document.getElementById("step-box");
+    const stepCounter = document.getElementById("step-counter");
+    const nextBtn = document.getElementById("next-btn");
+    const backBtn = document.getElementById("back-btn");
+
+    function typeText(text) {
+      stepBox.innerHTML = "";
+      [...text].forEach((char, i) => {
+        const span = document.createElement("span");
+        span.textContent = char === " " ? "\u00A0" : char;
+        span.className = "letter";
+        span.style.animationDelay = `${i * 0.01}s`;
+        stepBox.appendChild(span);
+      });
+    }
+
+    function updateUI() {
+      if (stepIndex === -1) {
+        stepCounter.textContent = "Step ? / " + steps.length;
+        stepBox.textContent = 'Press "Next" to begin baking protocol.';
+        backBtn.disabled = true;
+      } else if (stepIndex < steps.length) {
+        typeText(steps[stepIndex]);
+        stepCounter.textContent = `Step ${stepIndex + 1} / ${steps.length}`;
+        nextBtn.textContent = stepIndex === steps.length - 1 ? "Done" : "Next >";
+        backBtn.disabled = false;
+      } else {
+        typeText("🎂 Cake.exe complete.\nEat responsibly.\nSystem shutting down...");
+        stepCounter.textContent = `COMPLETE`;
+        nextBtn.disabled = true;
+      }
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (stepIndex < steps.length) {
+        stepIndex++;
+        updateUI();
+      }
+    });
+
+    backBtn.addEventListener("click", () => {
+      if (stepIndex > 0) {
+        stepIndex--;
+        nextBtn.disabled = false;
+        updateUI();
+      } else if (stepIndex === 0) {
+        stepIndex = -1;
+        updateUI();
+      }
+    });
+
+    updateUI();
+  </script>
+</body>
+</html>
