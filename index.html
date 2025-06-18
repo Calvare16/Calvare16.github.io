@@ -32,6 +32,46 @@
       text-shadow: 0 0 10px #00ff99;
     }
 
+    #ingredient-section {
+      text-align: left;
+      background: rgba(0, 255, 153, 0.08);
+      border: 1px solid #00ff99;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px;
+      max-width: 90%;
+      font-size: 1.1em;
+      box-shadow: 0 0 10px #00ff99;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    #start-btn {
+      margin-top: 20px;
+      padding: 12px 28px;
+      font-size: 1em;
+      background: black;
+      color: #00ff99;
+      border: 2px solid #00ff99;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Share Tech Mono', monospace;
+      box-shadow: 0 0 5px #00ff99;
+    }
+
+    #start-btn:hover {
+      background: #00ff99;
+      color: black;
+    }
+
+    #main-section {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+
     #step-counter {
       font-size: 1em;
       color: #44ffcc;
@@ -59,26 +99,7 @@
     }
 
     button {
-      background: black;
-      color: #00ff99;
-      border: 2px solid #00ff99;
       font-family: 'Share Tech Mono', monospace;
-      padding: 12px 24px;
-      font-size: 1em;
-      border-radius: 4px;
-      cursor: pointer;
-      box-shadow: 0 0 5px #00ff99;
-      transition: all 0.2s;
-    }
-
-    button:hover:not(:disabled) {
-      background: #00ff99;
-      color: #000;
-    }
-
-    button:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
     }
 
     .letter {
@@ -99,12 +120,32 @@
 </head>
 <body>
   <h1>Loading: DevilCake.exe</h1>
-  <div id="step-counter">Step ?/?</div>
-  <div id="step-box">Press "Next" to begin baking protocol.</div>
 
-  <div class="button-container">
-    <button id="back-btn" disabled>&lt; Back</button>
-    <button id="next-btn">Next &gt;</button>
+  <div id="ingredient-section">
+    <strong>Ingredients:</strong>
+    <ul>
+      <li>1 cup (120g) unsweetened natural cocoa powder</li>
+      <li>1 cup (240ml) boiling water</li>
+      <li>2 1/4 cups (270g) all-purpose flour</li>
+      <li>2 teaspoons baking soda</li>
+      <li>1/2 teaspoon salt</li>
+      <li>1 cup (226g) unsalted butter, room temp</li>
+      <li>2 1/4 cups (450g) granulated sugar</li>
+      <li>4 large eggs, room temp</li>
+      <li>1 tablespoon vanilla extract</li>
+      <li>1 cup (240ml) sour cream, room temp</li>
+    </ul>
+    <button id="start-btn">Start Recipe &gt;</button>
+  </div>
+
+  <div id="main-section">
+    <div id="step-counter">Step ?/?</div>
+    <div id="step-box">Press "Next" to begin baking protocol.</div>
+
+    <div class="button-container">
+      <button id="back-btn" disabled>&lt; Back</button>
+      <button id="next-btn">Next &gt;</button>
+    </div>
   </div>
 
   <script>
@@ -126,6 +167,15 @@
     const stepCounter = document.getElementById("step-counter");
     const nextBtn = document.getElementById("next-btn");
     const backBtn = document.getElementById("back-btn");
+    const startBtn = document.getElementById("start-btn");
+    const ingredientSection = document.getElementById("ingredient-section");
+    const mainSection = document.getElementById("main-section");
+
+    startBtn.addEventListener("click", () => {
+      ingredientSection.style.display = "none";
+      mainSection.style.display = "flex";
+      updateUI();
+    });
 
     function typeText(text) {
       stepBox.innerHTML = "";
@@ -172,8 +222,6 @@
         updateUI();
       }
     });
-
-    updateUI();
   </script>
 </body>
 </html>
